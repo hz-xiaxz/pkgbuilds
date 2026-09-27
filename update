@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Check upstream versions with nvchecker and bump every outdated PKGBUILD.
+# Afterwards `paru -Syu` (or `paru -S <pkg>`) builds and installs them.
+#
+# A package with its own <pkg>/bump.sh gets that script run with the new version;
+# otherwise pkgver is replaced, pkgrel reset to 1 and checksums refreshed with updpkgsums.
+set -euo pipefail
+
+cd "$(dirname "$(readlink -f "$0")")"
+
+nvchecker -c nvchecker.toml
+latest=$(jq -r '.data | to_entries[] | [.key, .value.version] | @tsv' new_ver.json)
+
+bumped=()
+while IFS=$'\t' read -r pkg upstream; do
+  [[ -f $pkg/PKGBUILD ]] || { echo "skip $pkg: no $pkg/PKGBUILD" >&2; continue; }
+  want=${upstream//-/_}
+  have=$(source "$pkg/PKGBUILD" && echo "$pkgver")
+  [[ $have == "$want" ]] && continue
+
+  echo "==> $pkg: $have -> $want"
+  if [[ -x $pkg/bump.sh ]]; then
+    "$pkg/bump.sh" "$upstream"
+  else
+    sed -i -e "s/^pkgver=.*/pkgver=$want/" -e "s/^pkgrel=.*/pkgrel=1/" "$pkg/PKGBUILD"
+    (cd "$pkg" && updpkgsums)
+  fi
+  bumped+=("$pkg")
+done <<<"$latest"
+
+if (( ${#bumped[@]} == 0 )); then
+  echo "Everything is up to date."
+  exit 0
+fi
+
+git add -- "${bumped[@]}"
+git commit -q -m "Bump ${bumped[*]}"
+echo "Bumped: ${bumped[*]}. Run: paru -Syu"

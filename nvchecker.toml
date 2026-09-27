@@ -1,0 +1,13 @@
+# Upstream version sources, one entry per package directory.
+# Run ./update to check them all and bump outdated PKGBUILDs.
+[__config__]
+# nvchecker only writes newver when oldver is set too; ./update compares against
+# the PKGBUILDs, so old_ver.json is just nvchecker's own cache
+oldver = "old_ver.json"
+newver = "new_ver.json"
+
+[zed-delta-bin]
+# same source bump.sh reads, so the two never disagree
+source = "regex"
+url = "https://raw.githubusercontent.com/zed-industries/delta-nix/HEAD/releases.json"
+regex = '"version":\s*"([^"]+)"'

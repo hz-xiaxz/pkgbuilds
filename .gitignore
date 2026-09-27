@@ -1,0 +1,10 @@
+# build products from makepkg / paru
+*/src/
+*/pkg/
+*.pkg.tar*
+*.tar.gz
+*.tar.xz
+*.zip
+# nvchecker output
+new_ver.json
+old_ver.json
