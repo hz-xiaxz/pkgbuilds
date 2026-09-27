@@ -25,6 +25,8 @@ while IFS=$'\t' read -r pkg upstream; do
     sed -i -e "s/^pkgver=.*/pkgver=$want/" -e "s/^pkgrel=.*/pkgrel=1/" "$pkg/PKGBUILD"
     (cd "$pkg" && updpkgsums)
   fi
+  # paru reads .SRCINFO and only regenerates it on -Sy, so keep it in step here
+  (cd "$pkg" && makepkg --printsrcinfo >.SRCINFO)
   bumped+=("$pkg")
 done <<<"$latest"
 
