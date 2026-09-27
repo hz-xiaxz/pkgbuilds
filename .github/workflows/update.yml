@@ -1,0 +1,35 @@
+name: update
+
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    steps:
+      - name: Install tools
+        run: pacman -Syu --noconfirm --needed git jq nvchecker pacman-contrib
+
+      - uses: actions/checkout@v4
+
+      # makepkg (used for .SRCINFO and updpkgsums) refuses to run as root
+      - name: Bump outdated PKGBUILDs
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          useradd -m builder
+          chown -R builder: "$GITHUB_WORKSPACE"
+          runuser -u builder -- bash -c '
+            git config --global --add safe.directory "$0"
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            ./update
+          ' "$GITHUB_WORKSPACE"
+
+      - name: Push
+        run: git push
