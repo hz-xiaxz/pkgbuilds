@@ -16,7 +16,7 @@ jobs:
       - name: Install tools
         run: pacman -Syu --noconfirm --needed git jq nvchecker pacman-contrib
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # makepkg (used for .SRCINFO and updpkgsums) refuses to run as root
       - name: Bump outdated PKGBUILDs
