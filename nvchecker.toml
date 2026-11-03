@@ -11,3 +11,9 @@ newver = "new_ver.json"
 source = "regex"
 url = "https://raw.githubusercontent.com/zed-industries/delta-nix/HEAD/releases.json"
 regex = '"version":\s*"([^"]+)"'
+
+[zoom]
+# zoom.us redirects "latest" to cdn.zoom.us/prod/<version>/, the URL the PKGBUILD pins
+source = "httpheader"
+url = "https://zoom.us/client/latest/zoom_x86_64.pkg.tar.xz"
+regex = '/prod/([\d.]+)/'

@@ -1,0 +1,24 @@
+# Repackages Zoom's own Arch package; the AUR zoom often lags behind zoom.us.
+# Zoom's .INSTALL only sets chrome_sandbox setuid (CEF uses user namespaces on Arch)
+# and AppArmor/desktop-database steps that pacman hooks or Arch don't need.
+pkgname=zoom
+pkgver=7.2.5.6661
+pkgrel=1
+pkgdesc="Zoom Workplace - video conferencing (Zoom's official Linux build)"
+arch=('x86_64')
+url="https://zoom.us/"
+license=('LicenseRef-zoom')
+# from the .PKGINFO of Zoom's package, with ibus/pulseaudio-alsa made optional
+depends=('dbus' 'fontconfig' 'glib2' 'libatomic_ops' 'libdrm' 'libpulse' 'libsm'
+  'libx11' 'libxcb' 'libxcomposite' 'libxfixes' 'libxi' 'libxrandr' 'libxrender'
+  'libxshmfence' 'libxslt' 'libxtst' 'mesa' 'nss' 'xcb-util-cursor'
+  'xcb-util-image' 'xcb-util-keysyms')
+optdepends=('pulseaudio-alsa: audio through ALSA'
+  'ibus: remote control')
+options=('!strip' '!debug')
+source=("zoom-$pkgver-x86_64.pkg.tar.xz::https://cdn.zoom.us/prod/$pkgver/zoom_x86_64.pkg.tar.xz")
+sha256sums=('9da37f66f98bb765723c2cf33e27f1ec51aa861f706a54ceccb78fef3414825c')
+
+package() {
+  cp -a --no-preserve=ownership "$srcdir/opt" "$srcdir/usr" "$pkgdir/"
+}
