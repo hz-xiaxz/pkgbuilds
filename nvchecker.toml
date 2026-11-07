@@ -6,6 +6,13 @@
 oldver = "old_ver.json"
 newver = "new_ver.json"
 
+[karere]
+# release tags are v<ver>; the repo also carries cef-* and webkitgtk-* tags
+source = "git"
+git = "https://github.com/tobagin/karere.git"
+include_regex = 'v\d+(\.\d+)+'
+prefix = "v"
+
 [zed-delta-bin]
 # same source bump.sh reads, so the two never disagree
 source = "regex"
