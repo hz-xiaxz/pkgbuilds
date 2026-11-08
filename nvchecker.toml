@@ -6,6 +6,12 @@
 oldver = "old_ver.json"
 newver = "new_ver.json"
 
+[antigravity-cli]
+# the manifest agy's auto-updater reads; bump.sh takes URL and sha512 from the same place
+source = "jq"
+url = "https://antigravity-cli-auto-updater-974169037036.us-central1.run.app/manifests/linux_amd64.json"
+filter = '.url | split("/")[5]'
+
 [karere]
 # release tags are v<ver>; the repo also carries cef-* and webkitgtk-* tags
 source = "git"

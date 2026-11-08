@@ -1,6 +1,6 @@
 # pkgbuilds
 
-Personal PKGBUILDs for software that isn't in the AUR or lags behind there (zoom, karere), used as a [paru](https://github.com/Morganamilo/paru) PKGBUILD repository.
+Personal PKGBUILDs for software that isn't in the AUR or lags behind there (zoom, karere, antigravity-cli), used as a [paru](https://github.com/Morganamilo/paru) PKGBUILD repository.
 
 A daily workflow runs `./update`. The script checks upstream versions with nvchecker (`nvchecker.toml`), then bumps and commits outdated PKGBUILDs.
 
