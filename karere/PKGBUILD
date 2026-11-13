@@ -6,7 +6,7 @@
 # Maintainer: bannert <aur@bannert.dev>
 
 pkgname=karere
-pkgver=4.3.5
+pkgver=4.4.0
 pkgrel=1
 pkgdesc="A fast, native WhatsApp client for Linux with GTK4/LibAdwaita"
 arch=('x86_64')
@@ -54,16 +54,16 @@ optdepends=(
 	'libappindicator-gtk3: system tray support'
 )
 # Karere-patched CEF build pinned by upstream's Flatpak manifest; bump.sh keeps these in sync.
-_ceftag='cef-152.0.6-proprietary-codecs'
-_cefver='152.0.6+g708dc14+chromium-152.0.7977.83'
+_ceftag='cef-156.0.26-proprietary-codecs-2'
+_cefver='156.0.26+g8ea0c73+chromium-156.0.8078.88'
 _cefdir="cef_binary_${_cefver}_linux64_minimal"
 source=(
 	"${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
 	"${_cefdir}.zip::${url}/releases/download/${_ceftag}/${_cefdir//+/%2B}.zip"
 )
 sha256sums=(
-	'3665035ad36636db24e2c5a98bb92f98e8fdebe1ab1ef09753fb3940e850c12d'
-	'3d64f6fac8911a368ffa415e3ee53d002cbd792866f08ed6578dae1e252cbac8'
+	'08b7fccdf82478b1ff398e20130f18cd7ecb0faa4b83f29034d8b944801d55e8'
+	'027473508ec25227972a8bc9182b15723f98cfa2e301746f8e2224c6a58517d5'
 )
 
 build() {
