@@ -66,6 +66,20 @@ sha256sums=(
 	'027473508ec25227972a8bc9182b15723f98cfa2e301746f8e2224c6a58517d5'
 )
 
+prepare() {
+	# cef-dll-sys >= 156 only accepts a CEF_PATH laid out like its own download:
+	# Release/ and Resources/ flattened next to the SDK files, plus an archive.json
+	# naming the version. Without archive.json it falls back to downloading the CEF
+	# index, which fails (index JSON > ureq's 10 MiB limit). Same layout as upstream's
+	# Flatpak cef-binaries module.
+	local cef="$srcdir/cef"
+	rm -rf "$cef"
+	mkdir -p "$cef"
+	cd "$srcdir/$_cefdir"
+	cp -a include libcef_dll cmake CMakeLists.txt Release/. Resources/. "$cef/"
+	printf '{"type":"minimal","name":"%s.tar.bz2","sha1":"%040d"}\n' "$_cefdir" 0 >"$cef/archive.json"
+}
+
 build() {
 	cd "$srcdir/$pkgname-$pkgver"
 
@@ -78,7 +92,7 @@ build() {
 
 	# Use Karere's patched CEF build. The generic CEF downloaded by cef-dll-sys
 	# contains an unused GLib WorkSource that busy-loops with external_message_pump.
-	export CEF_PATH="$srcdir/$_cefdir/Release"
+	export CEF_PATH="$srcdir/cef"
 
 	# Strip source paths from binary to avoid $srcdir references in panic messages
 	export RUSTFLAGS="--remap-path-prefix=$srcdir=/build"
@@ -98,7 +112,7 @@ package() {
 	# inside fakeroot. Re-export the exact build env or the changed RUSTFLAGS
 	# trigger a full rebuild that embeds $srcdir into the binary.
 	export RUSTFLAGS="--remap-path-prefix=$srcdir=/build"
-	export CEF_PATH="$srcdir/$_cefdir/Release"
+	export CEF_PATH="$srcdir/cef"
 
 	meson install -C build --destdir="$pkgdir"
 
@@ -108,20 +122,10 @@ package() {
 	local cef_resources="$srcdir/$_cefdir/Resources"
 	[[ -f "$cef_release/libcef.so" ]] || { echo "CEF runtime not found in $cef_release" >&2; return 1; }
 
+	# Take everything in Release/ and Resources/ (CEF 156 dropped libEGL/libGLESv2,
+	# so a fixed file list breaks on CEF bumps).
 	install -d "$pkgdir/usr/lib/karere"
-	install -m755 -t "$pkgdir/usr/lib/karere" \
-		"$cef_release"/libcef.so \
-		"$cef_release"/libEGL.so \
-		"$cef_release"/libGLESv2.so \
-		"$cef_release"/libvk_swiftshader.so \
-		"$cef_release"/libvulkan.so.1 \
-		"$cef_release"/chrome-sandbox
-	install -m644 -t "$pkgdir/usr/lib/karere" \
-		"$cef_resources"/*.pak \
-		"$cef_resources"/icudtl.dat \
-		"$cef_release"/v8_context_snapshot.bin \
-		"$cef_release"/vk_swiftshader_icd.json
-	cp -a "$cef_resources/locales" "$pkgdir/usr/lib/karere/locales"
+	cp -a "$cef_release/." "$cef_resources/." "$pkgdir/usr/lib/karere/"
 	install -Dm644 "$srcdir/$_cefdir/LICENSE.txt" "$pkgdir/usr/share/licenses/$pkgname/CEF-LICENSE.txt"
 
 	mv "$pkgdir/usr/bin/karere" "$pkgdir/usr/lib/karere/karere"
