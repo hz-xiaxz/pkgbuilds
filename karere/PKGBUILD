@@ -6,7 +6,7 @@
 # Maintainer: bannert <aur@bannert.dev>
 
 pkgname=karere
-pkgver=4.6.0
+pkgver=4.6.1
 pkgrel=1
 pkgdesc="A fast, native WhatsApp client for Linux with GTK4/LibAdwaita"
 arch=('x86_64')
@@ -62,7 +62,7 @@ source=(
 	"${_cefdir}.zip::${url}/releases/download/${_ceftag}/${_cefdir//+/%2B}.zip"
 )
 sha256sums=(
-	'c15eb65cecd9818fdd215d16bd694e77e273268c7b4c9c62715e491059197c7b'
+	'da0dccaed9657c1a126e5c768327e9d4cdca05eddccd7ad7988b6e42f53478f8'
 	'027473508ec25227972a8bc9182b15723f98cfa2e301746f8e2224c6a58517d5'
 )
 
