@@ -1,6 +1,6 @@
 pkgbase = zed-delta-bin
 	pkgdesc = Delta - AI-native code editor from Zed (prebuilt binary)
-	pkgver = 0.24.0
+	pkgver = 0.28.1
 	pkgrel = 1
 	url = https://delta.dev
 	arch = x86_64
@@ -13,9 +13,9 @@ pkgbase = zed-delta-bin
 	conflicts = git-delta
 	options = !strip
 	options = !debug
-	source_x86_64 = delta-0.24.0-x86_64.tar.gz::https://github.com/zed-industries/delta-nix/releases/download/v0.24.0/delta-linux-x86_64.tar.gz
-	sha256sums_x86_64 = 9d6991d0dd071bf9afc662c21889df06a745599ebbf02a8d512ab4108904ef5a
-	source_aarch64 = delta-0.24.0-aarch64.tar.gz::https://github.com/zed-industries/delta-nix/releases/download/v0.24.0/delta-linux-aarch64.tar.gz
-	sha256sums_aarch64 = 84096b9542c81a4b7bb812130d3db392dac2806ba1c4ff8cc9ea290b78d35448
+	source_x86_64 = delta-0.28.1-x86_64.tar.gz::https://github.com/zed-industries/delta-nix/releases/download/v0.28.1/delta-linux-x86_64.tar.gz
+	sha256sums_x86_64 = 394183630f04a59584a39262b0551ed340bff0ff1ff6506d770f36bf45851adb
+	source_aarch64 = delta-0.28.1-aarch64.tar.gz::https://github.com/zed-industries/delta-nix/releases/download/v0.28.1/delta-linux-aarch64.tar.gz
+	sha256sums_aarch64 = 23a4a59bf9f84a8d2b50de788ae09c8a5c3a263bbfa5237eba201237f774b27a
 
 pkgname = zed-delta-bin

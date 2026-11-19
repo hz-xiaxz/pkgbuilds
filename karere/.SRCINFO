@@ -1,6 +1,6 @@
 pkgbase = karere
 	pkgdesc = A fast, native WhatsApp client for Linux with GTK4/LibAdwaita
-	pkgver = 4.6.1
+	pkgver = 4.6.3
 	pkgrel = 1
 	url = https://github.com/tobagin/karere
 	arch = x86_64
@@ -39,9 +39,9 @@ pkgbase = karere
 	optdepends = hunspell: spell checking support
 	optdepends = libappindicator-gtk3: system tray support
 	options = !lto
-	source = karere-4.6.1.tar.gz::https://github.com/tobagin/karere/archive/refs/tags/v4.6.1.tar.gz
+	source = karere-4.6.3.tar.gz::https://github.com/tobagin/karere/archive/refs/tags/v4.6.3.tar.gz
 	source = cef_binary_156.0.26+g8ea0c73+chromium-156.0.8078.88_linux64_minimal.zip::https://github.com/tobagin/karere/releases/download/cef-156.0.26-proprietary-codecs-2/cef_binary_156.0.26%2Bg8ea0c73%2Bchromium-156.0.8078.88_linux64_minimal.zip
-	sha256sums = da0dccaed9657c1a126e5c768327e9d4cdca05eddccd7ad7988b6e42f53478f8
+	sha256sums = b416765ab76a3ae368e6343667b346f8f2bba3a0de8c96443f0121d8a89c65a6
 	sha256sums = 027473508ec25227972a8bc9182b15723f98cfa2e301746f8e2224c6a58517d5
 
 pkgname = karere
